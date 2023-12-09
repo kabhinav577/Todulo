@@ -1,19 +1,24 @@
-import { createConnection } from 'mysql';
+import { createPool } from 'mysql2/promise';
 
-// MySQL Connection
-const db = createConnection({
+const db = {
+  connectionLimit: 10,
   host: 'localhost',
   user: 'root',
   password: 'Mrrobot@123',
   database: 'todo_app',
+  port: 3306,
+};
+
+const pool = createPool(db);
+
+// Listen for the connection event
+pool.on('connection', (connection) => {
+  console.log('Database connection established:', connection.threadId);
 });
 
-db.connect((err) => {
-  if (err) {
-    console.log('MySQL Connection Error: ', err);
-  } else {
-    console.log('MySQL Connected!');
-  }
+// Listen for errors
+pool.on('error', (err) => {
+  console.error('Database connection error:', err);
 });
 
-export default db;
+export { pool };
