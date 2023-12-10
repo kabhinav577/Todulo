@@ -1,20 +1,73 @@
 /* eslint-disable react/no-unescaped-entities */
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import Logo from '../../assets/todo-96.svg';
+import { useState } from 'react';
 
 const SignUp = () => {
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    password: '',
+  });
+  const navigate = useNavigate();
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    try {
+      if (!formData.name || !formData.email || !formData.password) {
+        console.error('Please fill in all fields');
+        return;
+      }
+
+      const response = await fetch('http://localhost:3001/api/users/register', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+
+      if (!response.ok) {
+        console.error('API call failed:', response.statusText);
+        return;
+      }
+
+      const data = await response.json();
+      console.log('API call successful. Response data:', data);
+
+      navigate('/signin');
+
+      setFormData({
+        name: '',
+        email: '',
+        password: '',
+      });
+    } catch (error) {
+      console.log('Error in SignUP Form', error);
+    }
+  };
+
   return (
     <>
       <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
         <div className="sm:mx-auto sm:w-full sm:max-w-sm">
           <img className="mx-auto h-10 w-auto" src={Logo} alt="Your Company" />
           <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
-            Sign in to your account
+            Create an account
           </h2>
         </div>
 
         <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-          <form className="space-y-6" action="#" method="POST">
+          <form className="space-y-6" onSubmit={handleSubmit}>
             <div>
               <label
                 htmlFor="email"
@@ -28,7 +81,9 @@ const SignUp = () => {
                   name="name"
                   type="text"
                   autoComplete="name"
+                  value={formData.name}
                   placeholder="John Doe"
+                  onChange={handleInputChange}
                   required
                   className="block w-full rounded-md border-0 p-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 />
@@ -47,8 +102,10 @@ const SignUp = () => {
                   id="email"
                   name="email"
                   type="email"
+                  value={formData.email}
                   autoComplete="email"
                   placeholder="Johndoe@gmail.com"
+                  onChange={handleInputChange}
                   required
                   className="block w-full rounded-md border-0 p-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 />
@@ -68,8 +125,10 @@ const SignUp = () => {
                   id="password"
                   name="password"
                   type="password"
+                  value={formData.password}
                   autoComplete="current-password"
                   placeholder="Hello@123"
+                  onChange={handleInputChange}
                   required
                   className="block w-full rounded-md border-0 p-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 />
