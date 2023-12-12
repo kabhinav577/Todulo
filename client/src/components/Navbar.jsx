@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { Link, useParams } from 'react-router-dom';
 import { Bars3Icon, XMarkIcon, MoonIcon } from '@heroicons/react/24/outline';
 import Logo from '../assets/todo-96.svg';
 import { motion } from 'framer-motion';
@@ -7,17 +7,17 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setLogout } from '../state';
 
 const navigation = [
-  { name: 'Home', href: '/', current: true },
-  { name: 'About', href: '/about', current: false },
-  { name: 'Contact', href: '/contact', current: false },
-  { name: 'Calendar', href: '/calendar', current: false },
+  { name: 'Home', href: '/' },
+  { name: 'About', href: '/about' },
+  { name: 'Contact', href: '/contact' },
+  { name: 'Calendar', href: '/calendar' },
 ];
 
 const mobileNavigation = [
-  { name: 'Home', href: '/', current: true },
-  { name: 'About', href: '/about', current: false },
-  { name: 'Contact', href: '/contact', current: false },
-  { name: 'Calendar', href: '/calendar', current: false },
+  { name: 'Home', href: '/' },
+  { name: 'About', href: '/about' },
+  { name: 'Contact', href: '/contact' },
+  { name: 'Calendar', href: '/calendar' },
 ];
 
 const profileLink = [
@@ -34,6 +34,8 @@ const Navbar = () => {
   const [profileModal, setProfileModal] = useState(false);
   const user = useSelector((state) => state.user);
   const dispatch = useDispatch();
+  const params = useParams();
+  console.log(params);
 
   const handleClick = () => {
     setIsOpen(!isOpen);
@@ -42,6 +44,8 @@ const Navbar = () => {
   const handleClickProfileModal = () => {
     setProfileModal(!profileModal);
   };
+
+  useEffect(() => {}, []);
 
   return (
     <header className="bg-gray-50 z-10">
@@ -76,12 +80,11 @@ const Navbar = () => {
                       key={item.name}
                       to={item.href}
                       className={classNames(
-                        item.current
+                        item.href === location.pathname
                           ? 'bg-gray-200 text-gray-700'
                           : 'text-gray-700 hover:bg-gray-100',
                         'rounded-md px-3 py-2 text-sm font-medium'
                       )}
-                      aria-current={item.current ? 'page' : undefined}
                     >
                       {item.name}
                     </Link>
@@ -192,7 +195,11 @@ const Navbar = () => {
                   onClick={handleClick}
                 >
                   {item.name}
-                  <span className="h-[1px] inline-block bg-gray-100 absolute left-0 -bottom-0.5 group-hover:w-full transition-[width] ease duration-300  w-0 hover:w-full">
+                  <span
+                    className={`h-[1px] inline-block bg-gray-100 absolute left-0 -bottom-0.5 group-hover:w-full transition-[width] ease duration-300  w-0 hover:w-full ${
+                      item.href === location.pathname ? 'w-full' : 'w-0'
+                    }`}
+                  >
                     &nbsp;
                   </span>
                 </Link>
