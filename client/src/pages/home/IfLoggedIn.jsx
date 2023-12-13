@@ -1,6 +1,5 @@
 import Layout from '../../components/Layout';
 import TodoForm from './components/TodoForm';
-import TodoControls from './components/TodoControls';
 import TodoList from './components/TodoList';
 
 const IfLoggedIn = () => {
@@ -11,12 +10,13 @@ const IfLoggedIn = () => {
 
         <hr className="w-full h-[1px] bg-gray-800" />
 
-        <TodoControls />
-
         <TodoList />
 
-        <div className="w-full flex justify-end items-center">
-          <button className="bg-red-500 hover:bg-red-700 text-white font-medium lg:font-bold py-2 px-4 rounded">
+        <div className="w-full flex justify-between items-center px-4">
+          <button className="bg-sky-500 hover:bg-sky-600 text-white font-medium lg:font-bold py-2 px-4 rounded">
+            Select all
+          </button>
+          <button className="bg-red-500 hover:bg-red-600 text-white font-medium lg:font-bold py-2 px-4 rounded">
             Clear all
           </button>
         </div>
