@@ -45,8 +45,6 @@ const SignIn = () => {
 
       const data = await response.json();
 
-      console.log('API Call Successful', data);
-
       navigate('/');
       dispatch(
         setLogin({

@@ -7,8 +7,8 @@ const TodoList = () => {
   return (
     <>
       <TodoControls />
-      <div className="w-full flex flex-col gap-4 items-center justify-center p-2 md:p-8 lg:p-12">
-        <div className="w-full h-[3.5rem] md:h-[5rem] bg-slate-50/80 shadow-lg rounded-lg flex justify-between items-center px-2 md:px-4">
+      <div className="w-full flex flex-col gap-4 items-center justify-center p-2">
+        <div className="w-full h-[4rem] md:h-[5rem] bg-slate-50/80 shadow-lg rounded-lg flex justify-between items-center px-2 md:px-4">
           <div className="flex items-center justify-center">
             <input
               id="default-checkbox"
@@ -29,7 +29,7 @@ const TodoList = () => {
               <select className="block appearance-none w-full bg-white border border-slate-100/80 hover:border-gray-200 px-2 py-2 rounded shadow leading-tight focus:outline-none focus:shadow-outline text-sm md:text-base">
                 <option>on-Hold</option>
                 <option>in-progress</option>
-                <option>Completed</option>
+                <option>completed</option>
               </select>
               <div className=" pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700 pb-2">
                 <FaSortDown size={20} />

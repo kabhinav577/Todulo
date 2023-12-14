@@ -5,7 +5,7 @@ import TodoList from './components/TodoList';
 const IfLoggedIn = () => {
   return (
     <Layout>
-      <main className="w-[95%] md:w-[80%] lg:w-[70%] mx-auto flex flex-col justify-center items-center gap-8">
+      <main className="w-[95%] md:w-[80%] lg:w-[70%] mx-auto flex flex-col justify-center items-center gap-6">
         <TodoForm />
 
         <hr className="w-full h-[1px] bg-gray-800" />
