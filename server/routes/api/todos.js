@@ -5,15 +5,16 @@ import {
   getAllTodos,
   updateTodo,
 } from '../../controllers/todosController.js';
+import { verifyToken } from '../../middleware/auth.js';
 
 const router = express.Router();
 
-router.get('/', getAllTodos);
+router.get('/:userId', verifyToken, getAllTodos);
 
-router.post('/', createTodo);
+router.post('/', verifyToken, createTodo);
 
-router.put('/:id', updateTodo);
+router.put('/:id', verifyToken, updateTodo);
 
-router.delete('/:id', deleteTodo);
+router.delete('/:id', verifyToken, deleteTodo);
 
 export default router;

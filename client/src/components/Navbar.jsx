@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { Bars3Icon, XMarkIcon, MoonIcon } from '@heroicons/react/24/outline';
 import Logo from '../assets/todo-96.svg';
 import { motion } from 'framer-motion';
@@ -34,8 +34,6 @@ const Navbar = () => {
   const [profileModal, setProfileModal] = useState(false);
   const user = useSelector((state) => state.user);
   const dispatch = useDispatch();
-  const params = useParams();
-  console.log(params);
 
   const handleClick = () => {
     setIsOpen(!isOpen);
