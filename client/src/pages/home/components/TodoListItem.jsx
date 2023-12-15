@@ -1,16 +1,26 @@
+/* eslint-disable react/prop-types */
 import { useState } from 'react';
 import { BsInfoCircle } from 'react-icons/bs';
 import { FaTrashAlt, FaSortDown } from 'react-icons/fa';
 import { GrEdit } from 'react-icons/gr';
 
-// eslint-disable-next-line react/prop-types
-const TodoListItem = ({ title, status, createdAt }) => {
+const TodoListItem = ({
+  id,
+  title,
+  status,
+  createdAt,
+  handleDelete,
+  handleUpdate,
+}) => {
   const [selectedValue, setSelectedValue] = useState(status);
 
   const handleChange = (event) => {
     setSelectedValue(event.target.value);
   };
 
+  const handleDeleteClick = async () => {
+    await handleDelete(id);
+  };
   // eslint-disable-next-line react/prop-types
   const date = createdAt.substring(0, 10);
   const reversedDateString = date.split('-').reverse().join('-');
@@ -52,7 +62,10 @@ const TodoListItem = ({ title, status, createdAt }) => {
             <span className="text-sky-700 cursor-pointer ">
               <GrEdit size={18} />
             </span>
-            <span className="text-red-600 cursor-pointer ">
+            <span
+              className="text-red-600 cursor-pointer "
+              onClick={handleDeleteClick}
+            >
               <FaTrashAlt size={18} />
             </span>
           </div>

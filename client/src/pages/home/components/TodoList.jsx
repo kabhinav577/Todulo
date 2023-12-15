@@ -28,6 +28,54 @@ const TodoList = () => {
     dispatch(setTodos({ todos: data }));
   };
 
+  const handleDelete = async (id) => {
+    const response = await fetch(`http://localhost:3001/api/tasks/${id}`, {
+      method: 'DELETE',
+      headers: { Authorization: `Bearer ${token}` },
+    });
+
+    if (!response.ok) {
+      console.log('Error deleting task:', response.statusText);
+      return;
+    }
+
+    // If deletion is successful, update the Redux store
+    dispatch(setTodos({ todos: todos.filter((todo) => todo.id !== id) }));
+    console.log('DELETED SUCCESSFULLY');
+  };
+
+  const handleUpdate = async (id) => {
+    const response = await fetch(`http://localhost:3001/api/tasks/${id}`, {
+      method: 'PUT',
+      headers: { Authorization: `Bearer ${token}` },
+    });
+
+    if (!response.ok) {
+      console.log('Error updating task:', response.statusText);
+      return;
+    }
+
+    // Fetch the updated todos from the server
+    const updatedResponse = await fetch(
+      `http://localhost:3001/api/tasks/${user.id}`,
+      {
+        method: 'GET',
+        headers: { Authorization: `Bearer ${token}` },
+      }
+    );
+
+    if (!updatedResponse.ok) {
+      console.log('Error fetching updated todos:', updatedResponse.statusText);
+      return;
+    }
+
+    const updatedData = await updatedResponse.json();
+
+    // Update the Redux store with the fetched updated todos
+    dispatch(setTodos({ todos: updatedData }));
+    console.log('UPDATED SUCCESSFULLY');
+  };
+
   useEffect(() => {
     getTodos();
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
@@ -38,9 +86,12 @@ const TodoList = () => {
       {Array.from(todos).map((todo) => (
         <TodoListItem
           key={todo.id}
+          id={todo.id}
           title={todo.title}
           status={todo.status}
           createdAt={todo.created_at}
+          handleDelete={handleDelete}
+          handleUpdate={handleUpdate}
         />
       ))}
     </>
