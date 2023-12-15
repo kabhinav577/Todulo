@@ -13,8 +13,7 @@ export const getAllTodos = async (req, res) => {
       return;
     }
 
-    const todo = rows[0];
-    res.json(todo);
+    res.json(rows);
   } catch (error) {
     console.error('Error getting todo:', error);
     res.status(500).json({ error: 'Internal Server Error' });

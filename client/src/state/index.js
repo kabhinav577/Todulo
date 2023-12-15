@@ -4,7 +4,7 @@ const initialState = {
   mode: 'light',
   user: null,
   token: null,
-  todos: null,
+  todos: [],
 };
 
 export const authSlice = createSlice({
