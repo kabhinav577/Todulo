@@ -87,7 +87,7 @@ const TodoList = () => {
 
   useEffect(() => {
     getTodos();
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [user, token]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <>

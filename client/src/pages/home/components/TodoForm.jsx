@@ -6,6 +6,7 @@ import { setTodos } from '../../../state';
 const TodoForm = () => {
   const user = useSelector((state) => state.user);
   const token = useSelector((state) => state.token);
+  const todos = useSelector((state) => state.todos);
   const dispatch = useDispatch();
   const [formData, setFormData] = useState({
     user_id: user.id,
@@ -39,15 +40,15 @@ const TodoForm = () => {
         return;
       }
 
-      const todos = await response.json();
+      const newTodo = await response.json();
 
-      console.log('API Call Successful', todos);
-
-      dispatch(setTodos({ todos }));
+      dispatch(setTodos({ todos: [...todos, newTodo] }));
+      setFormData({ user_id: user.id, title: '', status: 'in-progress' });
     } catch (error) {
       console.log('Error in Creating Todo', error);
     }
   };
+
   return (
     <div className="w-[90%] md:w-[80%] lg:w-[70%] p-2 md:p-4 lg:p-6 px-4 rounded-lg flex justify-between items-center bg-slate-50 shadow-md mb-2">
       <form
@@ -58,6 +59,7 @@ const TodoForm = () => {
           className="bg-transparent border-none outline-none min-w-[65%]"
           type="text"
           name="title"
+          value={formData.title}
           onChange={handleInputChange}
           placeholder="What work you do?"
         />

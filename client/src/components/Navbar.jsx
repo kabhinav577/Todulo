@@ -25,10 +25,6 @@ const profileLink = [
   { name: 'Settings', href: '/settings' },
 ];
 
-function classNames(...classes) {
-  return classes.filter(Boolean).join(' ');
-}
-
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [profileModal, setProfileModal] = useState(false);
@@ -66,25 +62,27 @@ const Navbar = () => {
               </button>
             </div>
             <div className="flex items-center justify-center  sm:justify-start">
-              <div className="absolute left-[50%] top-4">
+              <div className="absolute left-[50%] top-4 md:left-[60%]lg:left-[50%]">
                 <img className="h-8 w-auto" src={Logo} alt="TODULO" />
               </div>
 
               {/* Desktop Navigation  */}
-              <div className="hidden sm:ml-6 sm:block">
+              <div className="hidden sm:block">
                 <div className="flex md:space-x-2 lg:space-x-4">
                   {navigation.map((item) => (
                     <Link
                       key={item.name}
                       to={item.href}
-                      className={classNames(
-                        item.href === location.pathname
-                          ? 'bg-gray-200 text-gray-700'
-                          : 'text-gray-700 hover:bg-gray-100',
-                        'rounded-md px-3 py-2 text-sm font-medium'
-                      )}
+                      className={`rounded-md px-2 mx-1 py-2 text-sm font-medium relative group`}
                     >
                       {item.name}
+                      <span
+                        className={`h-[2px] inline-block bg-gray-500 absolute left-0 -bottom-0.5 group-hover:w-full transition-[width] ease duration-300  w-0 hover:w-full ${
+                          item.href === location.pathname ? 'w-full' : 'w-0'
+                        }`}
+                      >
+                        &nbsp;
+                      </span>
                     </Link>
                   ))}
                 </div>

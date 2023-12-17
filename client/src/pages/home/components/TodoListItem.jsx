@@ -33,8 +33,8 @@ const TodoListItem = ({
     );
   };
   // eslint-disable-next-line react/prop-types
-  const date = createdAt.substring(0, 10);
-  const reversedDateString = date.split('-').reverse().join('-');
+  // const date = createdAt.substring(0, 10);
+  // const reversedDateString = date.split('-').reverse().join('-');
 
   return (
     <div className="w-full h-[4rem] md:h-[5rem] bg-slate-50/80 shadow-lg rounded-lg flex justify-between items-center px-2 md:px-4">
@@ -92,7 +92,7 @@ const TodoListItem = ({
             </span>
           </div>
           <div className="flex justify-center items-center text-xs md:text-base text-gray-400">
-            <BsInfoCircle size={15} className="mr-1" /> {reversedDateString}
+            <BsInfoCircle size={15} className="mr-1" /> {createdAt}
           </div>
         </div>
       </div>
