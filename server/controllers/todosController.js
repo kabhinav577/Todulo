@@ -42,10 +42,10 @@ export const createTodo = async (req, res) => {
 export const updateTodo = async (req, res) => {
   try {
     const { id } = req.params;
-    const { title, status } = req.body;
+    const { status, is_checked } = req.body;
     const [result] = await pool.query(
-      'UPDATE todos SET title=?, status=? WHERE id=?',
-      [title, status, id]
+      'UPDATE todos SET status=?, is_checked=? WHERE id=?',
+      [status, is_checked, id]
     );
 
     if (result.affectedRows === 0) {
@@ -53,7 +53,7 @@ export const updateTodo = async (req, res) => {
       return;
     }
 
-    res.json({ id, title, status });
+    res.json({ id, status, is_checked });
   } catch (error) {
     console.error('Error updating todo:', error);
     res.status(500).json({ error: 'Internal Server Error' });

@@ -41,39 +41,48 @@ const TodoList = () => {
 
     // If deletion is successful, update the Redux store
     dispatch(setTodos({ todos: todos.filter((todo) => todo.id !== id) }));
-    console.log('DELETED SUCCESSFULLY');
   };
 
-  const handleUpdate = async (id) => {
-    const response = await fetch(`http://localhost:3001/api/tasks/${id}`, {
-      method: 'PUT',
-      headers: { Authorization: `Bearer ${token}` },
-    });
+  const handleUpdate = async (id, newStatus, newIsChecked) => {
+    try {
+      const response = await fetch(`http://localhost:3001/api/tasks/${id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ is_checked: newIsChecked, status: newStatus }),
+      });
 
-    if (!response.ok) {
-      console.log('Error updating task:', response.statusText);
-      return;
-    }
-
-    // Fetch the updated todos from the server
-    const updatedResponse = await fetch(
-      `http://localhost:3001/api/tasks/${user.id}`,
-      {
-        method: 'GET',
-        headers: { Authorization: `Bearer ${token}` },
+      if (!response.ok) {
+        console.log('Error updating task:', response.statusText);
+        return;
       }
-    );
 
-    if (!updatedResponse.ok) {
-      console.log('Error fetching updated todos:', updatedResponse.statusText);
-      return;
+      // Fetch the updated todos from the server
+      const updatedResponse = await fetch(
+        `http://localhost:3001/api/tasks/${user.id}`,
+        {
+          method: 'GET',
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+
+      if (!updatedResponse.ok) {
+        console.log(
+          'Error fetching updated todos:',
+          updatedResponse.statusText
+        );
+        return;
+      }
+
+      const updatedData = await updatedResponse.json();
+
+      // Update the Redux store with the fetched updated todos
+      dispatch(setTodos({ todos: updatedData }));
+    } catch (error) {
+      console.error('Error during update:', error);
     }
-
-    const updatedData = await updatedResponse.json();
-
-    // Update the Redux store with the fetched updated todos
-    dispatch(setTodos({ todos: updatedData }));
-    console.log('UPDATED SUCCESSFULLY');
   };
 
   useEffect(() => {

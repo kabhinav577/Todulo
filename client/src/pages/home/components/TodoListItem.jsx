@@ -14,12 +14,23 @@ const TodoListItem = ({
 }) => {
   const [selectedValue, setSelectedValue] = useState(status);
 
-  const handleChange = (event) => {
-    setSelectedValue(event.target.value);
+  const handleChange = async (event) => {
+    const newValue = event.target.value;
+    setSelectedValue(newValue);
+
+    await handleUpdate(id, newValue, newValue === 'completed' ? 1 : 0);
   };
 
   const handleDeleteClick = async () => {
     await handleDelete(id);
+  };
+
+  const handleUpdateClick = async () => {
+    await handleUpdate(
+      id,
+      selectedValue === 'completed' ? 'in-progress' : 'completed',
+      selectedValue === 'completed' ? 0 : 1
+    );
   };
   // eslint-disable-next-line react/prop-types
   const date = createdAt.substring(0, 10);
@@ -29,14 +40,25 @@ const TodoListItem = ({
     <div className="w-full h-[4rem] md:h-[5rem] bg-slate-50/80 shadow-lg rounded-lg flex justify-between items-center px-2 md:px-4">
       <div className="flex items-center justify-center">
         <input
-          id="default-checkbox"
+          id={`checkbox-${id}`}
           type="checkbox"
           value=""
+          onChange={() =>
+            setSelectedValue((prevValue) =>
+              prevValue === 'completed' ? '' : 'completed'
+            )
+          }
+          onClick={handleUpdateClick}
+          checked={selectedValue === 'completed'}
           className="w-4 h-4 md:w-6 md:h-6 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 "
         />
         <label
-          htmlFor="default-checkbox"
-          className="ms-3 text-sm md:text-base font-medium text-gray-700"
+          htmlFor={`checkbox-${id}`}
+          className={`ms-3 text-sm md:text-base font-medium ${
+            selectedValue === 'completed'
+              ? 'line-through text-gray-500'
+              : 'text-gray-700'
+          }`}
         >
           {title}
         </label>
